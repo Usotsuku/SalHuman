@@ -22,7 +22,7 @@ public class Employe extends Utilisateur {
     private String nom;
     private String prenom;
     private String departement;
-    private int poste;
+    private String poste;
     private Date date_embauche;
     @OneToMany(mappedBy = "employe",fetch = FetchType.EAGER)
     private List<Conge> conges = new ArrayList<>();

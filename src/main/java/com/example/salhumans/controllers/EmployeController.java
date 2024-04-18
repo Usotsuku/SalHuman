@@ -47,4 +47,11 @@ public class EmployeController {
         modelMap.addAttribute("employesJsp",employesController);
         return "EmployeList";
     }
+    @RequestMapping("/deleteEmploye")
+    public String deleteEmploye(@RequestParam("id") Long id,ModelMap modelMap){
+        employeService.deleteEmployeById(id);
+        List<Employe> employesController = employeService.getAllEmployes();
+        modelMap.addAttribute("employesJsp",employesController);
+        return "EmployeList";
+    }
 }
