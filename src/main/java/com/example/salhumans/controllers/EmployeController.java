@@ -54,4 +54,26 @@ public class EmployeController {
         modelMap.addAttribute("employesJsp",employesController);
         return "EmployeList";
     }
+
+    @RequestMapping("/editEmploye")
+    public String editEmploye(@RequestParam("id") long id, ModelMap modelMap) {
+        Employe employeController = employeService.getEmployeById(id);
+        modelMap.addAttribute("employeView", employeController);
+        return "EditEmploye";
+    }
+    
+    @RequestMapping("updateEmploye")
+    public String updateEmploye(
+            @ModelAttribute("employe") Employe employe,
+            @RequestParam("dateJsp") String dateController,
+            ModelMap modelMap
+    ) throws ParseException {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        Date dateEmbauche = dateFormat.parse(dateController);
+        employe.setDate_embauche(dateEmbauche);
+        Employe updatedEmploye = employeService.updateEmploye(employe);
+        String messageController = "The employee with ID: " + updatedEmploye.getEmployeId() + " has been updated";
+        modelMap.addAttribute("messageJsp", messageController);
+        return "EditEmploye";
+    }
 }
