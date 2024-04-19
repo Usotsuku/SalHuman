@@ -1,5 +1,5 @@
 package com.example.salhumans.services;
-
+import java.util.Optional;
 import com.example.salhumans.models.Employe;
 import com.example.salhumans.repositories.EmployeRepository;
 import lombok.Setter;
@@ -40,5 +40,11 @@ public class EmployeServiceImpl implements EmployeService {
     @Override
     public void deleteAllEmployes() {
         employeRepository.deleteAll();
+    }
+
+    @Override
+    public Employe getEmployeById(long id) {
+        Optional<Employe> optionalEmploye = employeRepository.findById(id);
+        return optionalEmploye.orElse(null);
     }
 }

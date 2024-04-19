@@ -44,6 +44,10 @@
                 <td><a onclick="return confirm('Are you sure to delete this employe ?')"
                     href="deleteEmploye?id=${employe.employeId}"
                 >Delete</a></td>
+
+            <td>
+            <a href="editEmploye?id=${employe.employeId}"> Edit</a>
+            </td>
             </tr>
         </c:forEach>
         </tbody>
