@@ -4,6 +4,8 @@ import com.example.salhumans.models.Employe;
 import com.example.salhumans.repositories.EmployeRepository;
 import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -46,5 +48,10 @@ public class EmployeServiceImpl implements EmployeService {
     public Employe getEmployeById(long id) {
         Optional<Employe> optionalEmploye = employeRepository.findById(id);
         return optionalEmploye.orElse(null);
+    }
+
+    @Override
+    public Page<Employe> getAllEmployesByPage(int page, int size) {
+        return employeRepository.findAll(PageRequest.of(page, size));
     }
 }

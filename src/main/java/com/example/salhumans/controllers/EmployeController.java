@@ -3,10 +3,14 @@ package com.example.salhumans.controllers;
 import com.example.salhumans.models.Employe;
 import com.example.salhumans.repositories.EmployeRepository;
 import com.example.salhumans.services.EmployeService;
+import jakarta.validation.Valid;
 import org.eclipse.tags.shaded.org.apache.xpath.operations.Mod;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -26,32 +30,33 @@ public class EmployeController {
         return "CreateEmploye";
     }
     @RequestMapping("saveEmploye")
-    public String saveEmploye(
-            @ModelAttribute("employe")Employe employe,
-            @RequestParam("dateJsp") String dateController,
-            ModelMap modelMap
-            )throws ParseException {
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-        Date dateEmbauche = dateFormat.parse(String.valueOf(dateController));
-        employe.setDate_embauche(dateEmbauche);
-        Employe memo = employeService.saveEmployee(employe);
-        String messageController = "the employe whose Id : " + memo.getEmployeId() + "is saved";
-
-        modelMap.addAttribute("messageJsp",messageController);
+    public String saveEmploye(@Valid Employe employe, BindingResult bindingResult) {
+        if(bindingResult.hasErrors()) return "CreateEmploye";
+        employeService.saveEmployee(employe);
 
         return "CreateEmploye";
     }
     @RequestMapping("/employeList")
-    public String employeList(ModelMap modelMap){
-        List<Employe> employesController = employeService.getAllEmployes();
+    public String employeList(ModelMap modelMap,
+                                @RequestParam(name = "page",defaultValue = "0") int page,
+                                @RequestParam(name = "size",defaultValue = "10") int size
+                                ){
+        Page<Employe> employesController = employeService.getAllEmployesByPage(page, size);
         modelMap.addAttribute("employesJsp",employesController);
+        modelMap.addAttribute("pages",new int[employesController.getTotalPages()]);
+        modelMap.addAttribute("currentPage",page);
         return "EmployeList";
     }
     @RequestMapping("/deleteEmploye")
-    public String deleteEmploye(@RequestParam("id") Long id,ModelMap modelMap){
+    public String deleteEmploye(@RequestParam("id") Long id,ModelMap modelMap,
+                                @RequestParam(name = "page",defaultValue = "0") int page,
+                                @RequestParam(name = "size",defaultValue = "10") int size
+    ){
         employeService.deleteEmployeById(id);
-        List<Employe> employesController = employeService.getAllEmployes();
+        Page<Employe> employesController = employeService.getAllEmployesByPage(page, size);
         modelMap.addAttribute("employesJsp",employesController);
+        modelMap.addAttribute("pages",new int[employesController.getTotalPages()]);
+        modelMap.addAttribute("currentPage",page);
         return "EmployeList";
     }
 

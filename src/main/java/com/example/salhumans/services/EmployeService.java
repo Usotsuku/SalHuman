@@ -1,6 +1,7 @@
 package com.example.salhumans.services;
 
 import com.example.salhumans.models.Employe;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -14,4 +15,6 @@ public interface EmployeService {
     void deleteEmployeById(Long id);
     void deleteAllEmployes();
     Employe getEmployeById(long id);
+
+    Page<Employe> getAllEmployesByPage(int page, int size);
 }
