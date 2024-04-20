@@ -1,0 +1,69 @@
+package com.example.salhumans.security;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.provisioning.InMemoryUserDetailsManager;
+import org.springframework.security.web.SecurityFilterChain;
+
+import static org.springframework.security.config.Customizer.withDefaults;
+
+@Configuration
+@EnableWebSecurity
+public class SecurityConfig {
+    @Autowired
+    PasswordEncoder passwordEncoder;
+    @Bean
+    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+        http
+                .authorizeHttpRequests(authorize -> authorize
+                        .anyRequest().authenticated()
+                )
+                .formLogin(withDefaults())
+                .httpBasic(withDefaults());
+        return http.build();
+    }
+    @Bean
+    public UserDetailsService users() {
+        UserDetails user = User.builder()
+                .username("user")
+                .password(passwordEncoder.encode("123"))
+                .roles("USER")
+                .build();
+        UserDetails admin = User.builder()
+                .username("admin")
+                .password(passwordEncoder.encode("123"))
+                .roles("USER", "ADMIN")
+                .build();
+        UserDetails employe = User.builder()
+                .username("employe")
+                .password(passwordEncoder.encode("123"))
+                .roles("EMPLOYE")
+                .build();
+        UserDetails rh = User.builder()
+                .username("rh")
+                .password(passwordEncoder.encode("123"))
+                .roles("RH")
+                .build();
+        UserDetails manager = User.builder()
+                .username("manager")
+                .password(passwordEncoder.encode("123"))
+                .roles("MANAGER")
+                .build();
+        return new InMemoryUserDetailsManager(user, admin,employe,rh,manager);
+    }
+//    public InMemoryUserDetailsManager inMemoryUserDetailsManager(){
+//        return new InMemoryUserDetailsManager(
+//                User.withUsername("admin").password(passwordEncoder.encode("123")).roles("ADMIN","USER").build(),
+//                User.withUsername("Employee").password(passwordEncoder.encode("123")).roles("Employee").build(),
+//                User.withUsername("Hr").password(passwordEncoder.encode("123")).roles("Hr").build(),
+//                User.withUsername("Manager").password(passwordEncoder.encode("123")).roles("Manager").build()
+//        );
+//    }
+}
