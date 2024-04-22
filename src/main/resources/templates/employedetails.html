@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Détails de l'employé</title>
+</head>
+
+<body>
+<h1>Détails de l'employé</h1>
+<div th:if="${employe}">
+    <p><strong>ID:</strong> <span th:text="${employe.employeId}"></span></p>
+    <p><strong>Nom:</strong> <span th:text="${employe.nom}"></span></p>
+    <p><strong>Prénom:</strong> <span th:text="${employe.prenom}"></span></p>
+    <p><strong>Poste:</strong> <span th:text="${employe.poste}"></span></p>
+    <p><strong>Département:</strong> <span th:text="${employe.departement}"></span></p>
+    <p><strong>Date Embauche:</strong> <span th:text="${#dates.format(employe.date_embauche, 'yyyy-MM-dd')}"></span></p>
+</div>
+<div th:unless="${employe}">
+    <p>Aucun employé trouvé avec cet identifiant.</p>
+    <a href="/employeList" class="btn btn-primary">Retour à la liste des employés</a>
+</div>
+</body>
+
+</html>

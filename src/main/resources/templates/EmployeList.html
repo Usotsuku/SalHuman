@@ -4,46 +4,50 @@
       layout:decorate="Template.html"
 >
 <head>
-    <link rel="stylesheet" type="text/css" href="webjars/bootstrap/5.3.2/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="/webjars/bootstrap/5.3.2/css/bootstrap.min.css">
     <meta charset="utf-8">
     <title>Employees List</title>
 </head>
 <body>
-<div layout:fragment="content" >
-
-
-
-    <table class="table table-striped" >
+<div layout:fragment="content">
+    <table class="table table-striped">
         <thead>
         <tr>
-            <th scope="col">Employee Id</th><th scope="col">Employee Name</th><th scope="col">Employee FirstName</th><th scope="col">Departement</th><th scope="col"> Poste </th><th scope="col">Date Embauche</th>
+            <th scope="col">Employee Id</th>
+            <th scope="col">Employee Name</th>
+            <th scope="col">Employee FirstName</th>
+            <th scope="col">Departement</th>
+            <th scope="col">Poste</th>
+            <th scope="col">Date Embauche</th>
+            <th scope="col">Actions</th>
         </tr>
         </thead>
         <tbody>
-        <tr th:each="employe:${employesJsp.content}">
+        <tr th:each="employe : ${employesJsp.content}">
             <td th:text="${employe.employeId}"></td>
             <td th:text="${employe.nom}"></td>
             <td th:text="${employe.prenom}"></td>
             <td th:text="${employe.departement}"></td>
             <td th:text="${employe.poste}"></td>
             <td th:text="${employe.date_embauche}"></td>
-            <td th:if="${#authorization.expression('hasAuthority(''ROLE_ADMIN'')')}">
-                <a onclick="return confirm('Are you sure to delete this employe ?')"
-                   th:href="@{deleteEmploye(id=${employe.employeId},
-                   page=${currentPage},
-                   size=${size}
-                   )}">Delete</a></td>
+            <td>
+                <a th:if="${#authorization.expression('hasAuthority(''ROLE_ADMIN'')')}"
+                   onclick="return confirm('Are you sure to delete this employe ?')"
+                   th:href="@{/deleteEmploye(id=${employe.employeId}, page=${currentPage}, size=${size})}"
+                   class="btn btn-danger">Delete</a>
+                <a th:href="@{/editEmploye(id=${employe.employeId})}" class="btn btn-primary">Edit</a>
+                <a th:href="@{/employedetails(id=${employe.employeId})}" class="btn btn-primary">Voir les détails</a>
+            </td>
         </tr>
         </tbody>
     </table>
     <ul class="nav nav-pills">
-        <li th:each="page,status:${pages}">
-            <a th:class="${status.index==currentPage?'btn btn-primary':'btn'}"
-               th:href="@{employeList(page=${status.index},size=${size})}"
+        <li th:each="page,status : ${pages}">
+            <a th:class="${status.index == currentPage ? 'btn btn-primary' : 'btn'}"
+               th:href="@{employeList(page=${status.index}, size=${size})}"
                th:text="${status.index}"></a>
         </li>
     </ul>
-
 </div>
 </body>
 </html>
