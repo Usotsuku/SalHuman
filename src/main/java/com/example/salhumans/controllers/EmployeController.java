@@ -31,8 +31,8 @@ public class EmployeController {
         return "CreateEmploye";
     }
     @RequestMapping("saveEmploye")
-    public String saveEmploye(@Valid Employe employe, BindingResult bindingResult) {
-        if(bindingResult.hasErrors()) return "CreateEmploye";
+    public String saveEmploye(@ModelAttribute("employe") Employe employe) {
+
         employeService.saveEmployee(employe);
 
         return "CreateEmploye";
@@ -40,7 +40,7 @@ public class EmployeController {
     @RequestMapping("/employeList")
     public String employeList(ModelMap modelMap,
                                 @RequestParam(name = "page",defaultValue = "0") int page,
-                                @RequestParam(name = "size",defaultValue = "10") int size
+                                @RequestParam(name = "size",defaultValue = "1") int size
                                 ){
         Page<Employe> employesController = employeService.getAllEmployesByPage(page, size);
         modelMap.addAttribute("employesJsp",employesController);
@@ -88,6 +88,10 @@ public class EmployeController {
     }
     @GetMapping("/accessDenied")
     public String accessDenied(){
-        return "redirect:/acessDenied";
+        return "/accessDenied";
+    }
+    @GetMapping("/login")
+    public String login(){
+        return "login";
     }
 }

@@ -27,8 +27,8 @@
             <td th:text="${employe.departement}"></td>
             <td th:text="${employe.poste}"></td>
             <td th:text="${employe.date_embauche}"></td>
-<!--            <td th:if="${#authorization.expression('hasRole(''ADMIN'')')}"-->
-            <td><a onclick="return confirm('Are you sure to delete this employe ?')"
+            <td th:if="${#authorization.expression('hasAuthority(''ROLE_ADMIN'')')}">
+                <a onclick="return confirm('Are you sure to delete this employe ?')"
                    th:href="@{deleteEmploye(id=${employe.employeId},
                    page=${currentPage},
                    size=${size}
@@ -39,7 +39,7 @@
     <ul class="nav nav-pills">
         <li th:each="page,status:${pages}">
             <a th:class="${status.index==currentPage?'btn btn-primary':'btn'}"
-               th:href="@{employesList(page=${status.index},size=${size})}"
+               th:href="@{employeList(page=${status.index},size=${size})}"
                th:text="${status.index}"></a>
         </li>
     </ul>

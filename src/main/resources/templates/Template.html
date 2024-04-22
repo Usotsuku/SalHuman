@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
-      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6"
+>
 <head>
     <link rel="stylesheet" type="text/css" href="webjars/bootstrap/5.3.2/css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="webjars/bootstrap-icons/1.11.3/font/bootstrap-icons.css">
@@ -19,7 +21,7 @@
                         Employees
                     </a>
                     <ul class="dropdown-menu">
-<!--                        <li th:if="${#authorization.expression('anyRole(''ADMIN'',''RH'')')}">-->
+                        <li th:if="${#authorization.expression('hasAnyAuthority(''ROLE_ADMIN'',''ROLE_RH'')')}">
                         <li>
                             <a class="dropdown-item" th:href="@{createEmploye}">New</a>
                         </li>
@@ -35,10 +37,10 @@
                 [username]
             </a>
             <ul class="dropdown-menu">
-                <li><a class="dropdown-item" href="">login</a></li>
+                <li><a sec:authorize="!isAuthenticated()" class="dropdown-item" th:href="/login">login</a></li>
                 <li>
                     <form method="post" th:action="@{/logout}">
-                        <button class="dropdown-item" type="submit">logout</button>
+                        <button sec:authorize="isAuthenticated()" class="dropdown-item" type="submit">logout</button>
                     </form>
                 </li>
                 <li><a class="dropdown-item" href="">Profile</a></li>

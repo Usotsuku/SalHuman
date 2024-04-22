@@ -22,13 +22,31 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
-                .authorizeHttpRequests(authorize -> authorize
-                        .anyRequest().authenticated()
+                .authorizeHttpRequests((authorize) -> authorize
+                        .requestMatchers("/createEmploye","/saveEmploye").hasAnyAuthority("ROLE_ADMIN","ROLE_RH")
+                        .requestMatchers("/showEmploye","/updateEmploye","/deleteEmploye").hasAnyAuthority("ROLE_ADMIN")
+                        .requestMatchers("/employeList").hasAnyAuthority("ROLE_ADMIN","ROLE_MANAGER","ROLE_RH")
+                .requestMatchers("/webjars/**").permitAll()
+                .anyRequest()
+                .authenticated())
+                .exceptionHandling(
+                        exception
+                                -> exception.accessDeniedPage(
+                                "/accessDenied"))
+//                .authorizeHttpRequests(authorize -> authorize
+//                        .requestMatchers("/webjars/**")
+//                        .permitAll())
+                .formLogin(form -> form
+                        .loginPage("/login").defaultSuccessUrl("/")
+                        .permitAll()
                 )
-                .formLogin(withDefaults())
+
+
+//                .formLogin(withDefaults())
                 .httpBasic(withDefaults());
         return http.build();
     }
+
     @Bean
     public UserDetailsService users() {
         UserDetails user = User.builder()
@@ -44,7 +62,7 @@ public class SecurityConfig {
         UserDetails employe = User.builder()
                 .username("employe")
                 .password(passwordEncoder.encode("123"))
-                .roles("EMPLOYE")
+                .roles("USER")
                 .build();
         UserDetails rh = User.builder()
                 .username("rh")
