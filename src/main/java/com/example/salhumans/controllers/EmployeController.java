@@ -11,10 +11,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -67,21 +64,13 @@ public class EmployeController {
         modelMap.addAttribute("employeView", employeController);
         return "EditEmploye";
     }
-    
-    @RequestMapping("updateEmploye")
-    public String updateEmploye(
-            @ModelAttribute("employe") Employe employe,
-            @RequestParam("dateJsp") String dateController,
-            ModelMap modelMap
-    ) throws ParseException {
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-        Date dateEmbauche = dateFormat.parse(dateController);
-        employe.setDate_embauche(dateEmbauche);
-        Employe updatedEmploye = employeService.updateEmploye(employe);
-        String messageController = "The employee with ID: " + updatedEmploye.getEmployeId() + " has been updated";
-        modelMap.addAttribute("messageJsp", messageController);
-        return "EditEmploye";
+
+    @RequestMapping(value = "/updateEmploye", method = RequestMethod.POST)
+    public String updateEmploye(@ModelAttribute("employe") Employe employe) {
+        employeService.updateEmploye(employe);
+        return "redirect:/editEmploye?id=" + employe.getEmployeId();
     }
+
     @GetMapping("/")
     public String home(){
         return "redirect:/employeList";
