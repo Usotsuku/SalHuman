@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <link rel="stylesheet" type="text/css" href="/webjars/bootstrap/5.3.2/css/bootstrap.min.css">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Employe Edition</title>
+</head>
+<body>
+<header>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg bg-light">
+        <div class="container-fluid">
+            <div class="collapse navbar-collapse" id="navbarExample01">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item active">
+                        <a class="nav-link" href="#">Employee Edition - Thymeleaf</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <!-- Navbar -->
+</header>
+<main class="container mt-5">
+    <form th:action="@{/updateEmploye}" method="post">
+        <!-- Champ ID (caché) -->
+        <input type="hidden" id="employeId" name="employeId" th:value="${employeView.employeId}" />
+
+        <div class="row mb-4">
+            <div class="col">
+                <div class="form-floating">
+                    <input type="text" id="nom" name="nom" class="form-control" th:value="${employeView.nom}" placeholder="Nom">
+                    <label for="nom">Nom</label>
+                </div>
+            </div>
+            <div class="col">
+                <div class="form-floating">
+                    <input type="text" id="prenom" name="prenom" class="form-control" th:value="${employeView.prenom}" placeholder="Prénom">
+                    <label for="prenom">Prénom</label>
+                </div>
+            </div>
+        </div>
+
+        <!-- Text input -->
+        <div class="form-floating mb-4">
+            <input type="text" id="poste" name="poste" class="form-control" th:value="${employeView.poste}" placeholder="Poste">
+            <label for="poste">Poste</label>
+        </div>
+        <div class="form-floating mb-4">
+            <input type="text" id="departement" name="departement" class="form-control" th:value="${employeView.departement}" placeholder="Département">
+            <label for="departement">Département</label>
+        </div>
+
+        <div class="form-floating mb-4">
+            <input type="date" id="dateEmbauche" name="date_embauche" class="form-control" th:value="${employeView.date_embauche}" placeholder="Date d'embauche">
+            <label for="dateEmbauche">Date Embauche</label>
+        </div>
+
+
+
+        <button type="submit" class="btn btn-primary">Update</button>
+    </form>
+    <div class="mt-3" th:text="${messageJsp}"></div>
+</main>
+<!-- Footer -->
+<footer class="text-center text-lg-start bg-light text-muted mt-5">
+    <div class="text-center p-4">
+        <a class="text-reset fw-bold" th:href="@{/employeList}">Employees List</a>
+    </div>
+</footer>
+<!-- Footer -->
+</body>
+</html>

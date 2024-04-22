@@ -94,4 +94,19 @@ public class EmployeController {
     public String login(){
         return "login";
     }
+
+    @Autowired
+    EmployeRepository employeRepository;
+
+    @GetMapping("/employedetails")
+    public String employeDetails(@RequestParam("id") long id, ModelMap modelMap) {
+        Employe employe = employeRepository.findById(id).orElse(null);
+
+        if (employe != null) {
+            modelMap.addAttribute("employe", employe);
+            return "employedetails"; // Correction du nom de la vue
+        } else {
+            return "error"; // Vous devrez créer une page d'erreur appropriée
+        }
+    }
 }
