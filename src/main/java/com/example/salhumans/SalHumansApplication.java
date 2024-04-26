@@ -1,6 +1,5 @@
 package com.example.salhumans;
 
-import com.example.salhumans.security.services.AccountService;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -15,20 +14,20 @@ public class SalHumansApplication {
 
         SpringApplication.run(SalHumansApplication.class, args);
     }
-    @Bean
-    PasswordEncoder passwordEncoder(){
-        return new BCryptPasswordEncoder();
-    }
+//    @Bean
+//    PasswordEncoder passwordEncoder(){
+//        return new BCryptPasswordEncoder();
+//    }
 
-    @Bean
-    public CommandLineRunner commandLineRunner(AccountService accountService){
-        return  args -> {
-//            accountService.createUser("admin","123","admin@gmail.com","123");
-//            accountService.createRole("ADMIN");
-//            accountService.createRole("RH");
-//            accountService.createRole("MANAGER");
-//            accountService.createRole("EMPLOYE");
-//            accountService.addRoletoUser("admin","ADMIN");
-        };
-    }
+//    @Bean
+//    public CommandLineRunner commandLineRunner(AccountService accountService){
+//        return  args -> {
+////            accountService.createUser("admin","123","admin@gmail.com","123");
+////            accountService.createRole("ADMIN");
+////            accountService.createRole("RH");
+////            accountService.createRole("MANAGER");
+////            accountService.createRole("EMPLOYE");
+////            accountService.addRoletoUser("admin","ADMIN");
+//        };
+//    }
 }
