@@ -3,20 +3,11 @@ package com.example.salhumans.controllers;
 import com.example.salhumans.models.Employe;
 import com.example.salhumans.repositories.EmployeRepository;
 import com.example.salhumans.services.EmployeService;
-import jakarta.validation.Valid;
-import org.eclipse.tags.shaded.org.apache.xpath.operations.Mod;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.List;
 
 @Controller
 public class EmployeController {
@@ -71,18 +62,7 @@ public class EmployeController {
         return "redirect:/editEmploye?id=" + employe.getEmployeId();
     }
 
-    @GetMapping("/")
-    public String home(){
-        return "redirect:/employeList";
-    }
-    @GetMapping("/accessDenied")
-    public String accessDenied(){
-        return "/accessDenied";
-    }
-    @GetMapping("/login")
-    public String login(){
-        return "login";
-    }
+
 
     @Autowired
     EmployeRepository employeRepository;

@@ -4,5 +4,6 @@ import com.example.salhumans.security.entities.Role;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface RoleRepository extends JpaRepository<Role,String> {
-    Role findByNom(String nom);
+
+    Role findByName(String name);
 }

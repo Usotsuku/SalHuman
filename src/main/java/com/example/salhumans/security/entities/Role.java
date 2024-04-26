@@ -1,19 +1,24 @@
 package com.example.salhumans.security.entities;
 
-import groovy.beans.Bindable;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import jakarta.persistence.*;
+import lombok.*;
 
-@Entity
-@Data
-@AllArgsConstructor
+import java.util.List;
+
+@Setter
+@Getter
 @NoArgsConstructor
+@AllArgsConstructor
+@Entity
+@Table(name="roles")
 @Builder
-public class Role {
+public class Role
+{
     @Id
-    private String nom;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @Column(nullable=false, unique=true)
+    private String name;
+
 }

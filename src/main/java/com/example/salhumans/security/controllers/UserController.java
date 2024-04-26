@@ -1,41 +1,71 @@
 package com.example.salhumans.security.controllers;
 
 import ch.qos.logback.core.model.Model;
+import com.example.salhumans.security.dto.UserDto;
 import com.example.salhumans.security.entities.Role;
-import com.example.salhumans.security.services.AccountService;
+import com.example.salhumans.security.entities.User;
+import com.example.salhumans.security.services.UserService;
+import jakarta.validation.Valid;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+@AllArgsConstructor
+@NoArgsConstructor
 
 @Controller
 public class UserController {
-    @Autowired
-    private AccountService accountService;
 
-    @RequestMapping("/createUser")
-    public String CreateUser(ModelMap modelMap) {
-        List<Role> roles = accountService.getAllRolles();
-        modelMap.addAttribute("rolesView", roles);
-        return "CreateUser";
+    @Autowired
+    private UserService userService;
+
+    @GetMapping("/")
+    public String home(){
+        return "redirect:/employeList";
+    }
+    @GetMapping("/accessDenied")
+    public String accessDenied(){
+        return "/accessDenied";
+    }
+    @GetMapping("/login")
+    public String login(){
+        return "login";
     }
 
+
+    @RequestMapping("/createUser")
+    public String showRegistrationForm(ModelMap modelmap){
+        // create model object to store form data
+        UserDto user = new UserDto();
+        List<Role> roles = userService.getAllRolles();
+        modelmap.addAttribute("rolesView", roles);
+        modelmap.addAttribute("user", user);
+        return "createUser";
+    }
     @RequestMapping("/saveUser")
-    public String createUser(@RequestParam String username,
-                             @RequestParam String password,
-                             @RequestParam String email,
-                             @RequestParam String confirmPassword,
-                             @RequestParam String role) {
+    public String registration(@Valid @ModelAttribute("user") UserDto userDto,
+                               @RequestParam String role,
+                               BindingResult result,
+                               ModelMap model){
+        User existingUser = userService.findUserByEmail(userDto.getEmail());
 
-        accountService.createUser(username, password, email, confirmPassword);
+        if(existingUser != null && existingUser.getEmail() != null && !existingUser.getEmail().isEmpty()){
+            result.rejectValue("email", null,
+                    "There is already an account registered with the same email");
+        }
 
-        accountService.addRoletoUser(username, role);
+        if(result.hasErrors()){
+            model.addAttribute("user", userDto);
+            return "createUser";
+        }
 
-        return "CreateUser";
+        userService.saveUser(userDto);
+        userService.addRoletoUser(userDto.getEmail(),role);
+        return "/login";
     }
 }

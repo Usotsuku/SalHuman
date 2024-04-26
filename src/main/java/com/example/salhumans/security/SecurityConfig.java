@@ -10,27 +10,34 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 import static org.springframework.security.config.Customizer.withDefaults;
 
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
-    @Autowired
-    PasswordEncoder passwordEncoder;
 
-//    @Autowired
-//    private MyUserDetailsService userDetailsService;
+    @Autowired
+    private UserDetailsService userDetailsService;
+
+    @Bean
+    public static PasswordEncoder passwordEncoder(){
+        return new BCryptPasswordEncoder();
+    }
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
+                .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests((authorize) -> authorize
+                        .requestMatchers("/createUser","/saveUser").permitAll()
                         .requestMatchers("/createEmploye","/saveEmploye").hasAnyAuthority("ROLE_ADMIN","ROLE_RH")
-                        .requestMatchers("/showEmploye","/updateEmploye","/deleteEmploye").hasAnyAuthority("ROLE_ADMIN")
+                        .requestMatchers("/employedetails","/updateEmploye","/deleteEmploye","/editEmploye").hasAnyAuthority("ROLE_ADMIN","ROLE_RH")
                         .requestMatchers("/employeList").hasAnyAuthority("ROLE_ADMIN","ROLE_MANAGER","ROLE_RH")
                 .requestMatchers("/webjars/**").permitAll()
                 .anyRequest()
@@ -39,67 +46,55 @@ public class SecurityConfig {
                         exception
                                 -> exception.accessDeniedPage(
                                 "/accessDenied"))
-//                .authorizeHttpRequests(authorize -> authorize
-//                        .requestMatchers("/webjars/**")
-//                        .permitAll())
-                .formLogin(form -> form
-                        .loginPage("/login").defaultSuccessUrl("/")
-                        .permitAll()
-                )
+                .formLogin(
+                        form -> form
+                                .loginPage("/login")
+                                .loginProcessingUrl("/login")
+                                .defaultSuccessUrl("/")
+                                .permitAll())
+                .logout(
+                        logout -> logout
+                                .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
+                                .permitAll()
+                );
 
-
-//                .formLogin(withDefaults())
-                .httpBasic(withDefaults());
         return http.build();
     }
 
-//    @Bean
-//    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-//        http.csrf().disable();
-//        return http.build();
-//    }
-//
-//    @Override
-//    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-//        auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder);
-//    }
-
-
-    @Bean
-    public UserDetailsService users() {
-        UserDetails user = User.builder()
-                .username("user")
-                .password(passwordEncoder.encode("123"))
-                .roles("USER")
-                .build();
-        UserDetails admin = User.builder()
-                .username("admin")
-                .password(passwordEncoder.encode("123"))
-                .roles("USER", "ADMIN")
-                .build();
-        UserDetails employe = User.builder()
-                .username("employe")
-                .password(passwordEncoder.encode("123"))
-                .roles("USER")
-                .build();
-        UserDetails rh = User.builder()
-                .username("rh")
-                .password(passwordEncoder.encode("123"))
-                .roles("RH")
-                .build();
-        UserDetails manager = User.builder()
-                .username("manager")
-                .password(passwordEncoder.encode("123"))
-                .roles("MANAGER")
-                .build();
-        return new InMemoryUserDetailsManager(user, admin,employe,rh,manager);
+    @Autowired
+    public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
+        auth
+                .userDetailsService(userDetailsService)
+                .passwordEncoder(passwordEncoder());
     }
-//    public InMemoryUserDetailsManager inMemoryUserDetailsManager(){
-//        return new InMemoryUserDetailsManager(
-//                User.withUsername("admin").password(passwordEncoder.encode("123")).roles("ADMIN","USER").build(),
-//                User.withUsername("employee").password(passwordEncoder.encode("123")).roles("USER").build(),
-//                User.withUsername("rh").password(passwordEncoder.encode("123")).roles("RH").build(),
-//                User.withUsername("manager").password(passwordEncoder.encode("123")).roles("MANAGER").build()
-//        );
+
+//    @Bean
+//    public UserDetailsService users() {
+//        UserDetails user = User.builder()
+//                .username("user")
+//                .password(passwordEncoder.encode("123"))
+//                .roles("USER")
+//                .build();
+//        UserDetails admin = User.builder()
+//                .username("admin")
+//                .password(passwordEncoder.encode("123"))
+//                .roles("USER", "ADMIN")
+//                .build();
+//        UserDetails employe = User.builder()
+//                .username("employe")
+//                .password(passwordEncoder.encode("123"))
+//                .roles("USER")
+//                .build();
+//        UserDetails rh = User.builder()
+//                .username("rh")
+//                .password(passwordEncoder.encode("123"))
+//                .roles("RH")
+//                .build();
+//        UserDetails manager = User.builder()
+//                .username("manager")
+//                .password(passwordEncoder.encode("123"))
+//                .roles("MANAGER")
+//                .build();
+//        return new InMemoryUserDetailsManager(user, admin,employe,rh,manager);
 //    }
 }
