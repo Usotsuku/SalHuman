@@ -1,8 +1,10 @@
 package com.example.salhumans.security;
 
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.core.userdetails.User;
@@ -19,6 +21,10 @@ import static org.springframework.security.config.Customizer.withDefaults;
 public class SecurityConfig {
     @Autowired
     PasswordEncoder passwordEncoder;
+
+//    @Autowired
+//    private MyUserDetailsService userDetailsService;
+
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
@@ -46,6 +52,18 @@ public class SecurityConfig {
                 .httpBasic(withDefaults());
         return http.build();
     }
+
+//    @Bean
+//    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+//        http.csrf().disable();
+//        return http.build();
+//    }
+//
+//    @Override
+//    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+//        auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder);
+//    }
+
 
     @Bean
     public UserDetailsService users() {
@@ -79,9 +97,9 @@ public class SecurityConfig {
 //    public InMemoryUserDetailsManager inMemoryUserDetailsManager(){
 //        return new InMemoryUserDetailsManager(
 //                User.withUsername("admin").password(passwordEncoder.encode("123")).roles("ADMIN","USER").build(),
-//                User.withUsername("Employee").password(passwordEncoder.encode("123")).roles("Employee").build(),
-//                User.withUsername("Hr").password(passwordEncoder.encode("123")).roles("Hr").build(),
-//                User.withUsername("Manager").password(passwordEncoder.encode("123")).roles("Manager").build()
+//                User.withUsername("employee").password(passwordEncoder.encode("123")).roles("USER").build(),
+//                User.withUsername("rh").password(passwordEncoder.encode("123")).roles("RH").build(),
+//                User.withUsername("manager").password(passwordEncoder.encode("123")).roles("MANAGER").build()
 //        );
 //    }
 }

@@ -15,6 +15,5 @@ import lombok.NoArgsConstructor;
 @Builder
 public class Role {
     @Id
-    private Long roleId;
     private String nom;
 }
