@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="Template.html">
+<head>
+    <link rel="stylesheet" type="text/css" href="/webjars/bootstrap/5.3.2/css/bootstrap.min.css">
+    <meta charset="utf-8">
+    <title>Employees List</title>
+</head>
+<body>
+
+<div layout:fragment="content">
+    <h1>User Profile</h1>
+    <p>Username: <span th:text="${employe.user.email}"></span></p>
+    <p>Nom: <span th:text="${employe.nom}"></span></p>
+    <p>Prenom: <span th:text="${employe.prenom}"></span></p>
+    <p> Departement: <span th:text="${employe.departement}"></span></p>
+    <p>Poste <span th:text="${employe.poste}"></span></p>
+    <p>Date Embauche <span th:text="${employe.date_embauche}"></span></p>
+    <a th:href="@{/editProfile(id=${employe.employeId})}" class="btn btn-primary">Edit</a>
+</div>
+</body>
+</html>

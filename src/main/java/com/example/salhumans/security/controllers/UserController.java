@@ -1,10 +1,12 @@
 package com.example.salhumans.security.controllers;
 
 import ch.qos.logback.core.model.Model;
+import com.example.salhumans.models.Employe;
 import com.example.salhumans.security.dto.UserDto;
 import com.example.salhumans.security.entities.Role;
 import com.example.salhumans.security.entities.User;
 import com.example.salhumans.security.services.UserService;
+import com.example.salhumans.services.EmployeService;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
@@ -23,6 +25,9 @@ public class UserController {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private EmployeService employeService;
 
     @GetMapping("/")
     public String home(){
@@ -64,7 +69,8 @@ public class UserController {
             return "createUser";
         }
 
-        userService.saveUser(userDto);
+        userService.saveUser(userDto,role);
+
         userService.addRoletoUser(userDto.getEmail(),role);
         return "/login";
     }

@@ -21,11 +21,11 @@
                         Employees
                     </a>
                     <ul class="dropdown-menu">
-                        <li th:if="${#authorization.expression('hasAnyAuthority(''ROLE_ADMIN'',''ROLE_RH'')')}">
-                        <li>
-                            <a class="dropdown-item" th:href="@{createEmploye}">New</a>
-                        </li>
-                        <li><a class="dropdown-item" th:href="@{employeList}">List</a></li>
+                        <li th:if="${#authorization.expression('hasAnyAuthority(''ROLE_ADMIN'',''ROLE_RH'')')}"></li>
+                            <li>
+                                <a class="dropdown-item" th:href="@{createEmploye}">New</a>
+                            </li>
+                            <li><a class="dropdown-item" th:href="@{employeList}">List</a></li>
                     </ul>
                 </li>
             </ul>
@@ -43,7 +43,7 @@
                         <button sec:authorize="isAuthenticated()" class="dropdown-item" type="submit">logout</button>
                     </form>
                 </li>
-                <li><a class="dropdown-item" href="">Profile</a></li>
+                <li><a class="dropdown-item" th:href="@{/profile}">Profile</a></li>
             </ul>
         </li>
     </ul>

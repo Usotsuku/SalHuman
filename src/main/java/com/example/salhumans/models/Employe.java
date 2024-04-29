@@ -1,5 +1,6 @@
 package com.example.salhumans.models;
 
+import com.example.salhumans.security.entities.User;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -31,5 +32,7 @@ public class Employe {
     private List<Fiche_Paie> Fiches = new ArrayList<>();
     @OneToMany(mappedBy = "employe",fetch = FetchType.EAGER)
     private List<Heure_Travaille> Heures_Travailles = new ArrayList<>();
-
+    @OneToOne
+    @JoinColumn(name = "user_id")
+    private User user;
 }

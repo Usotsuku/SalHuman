@@ -1,10 +1,12 @@
 package com.example.salhumans.security.services;
 
+import com.example.salhumans.models.Employe;
 import com.example.salhumans.security.dto.UserDto;
 import com.example.salhumans.security.entities.Role;
 import com.example.salhumans.security.entities.User;
 import com.example.salhumans.security.repositories.RoleRepository;
 import com.example.salhumans.security.repositories.UserRepository;
+import com.example.salhumans.services.EmployeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -24,6 +26,8 @@ public class UserServiceImp implements UserService{
     private RoleRepository roleRepository;
     @Autowired
     private PasswordEncoder passwordEncoder;
+    @Autowired
+    private EmployeService employeService;
 
     public UserServiceImp(UserRepository userRepository,
                           RoleRepository roleRepository,
@@ -33,13 +37,26 @@ public class UserServiceImp implements UserService{
         this.passwordEncoder=passwordEncoder;
     }
     @Override
-    public void saveUser(UserDto userDto) {
+    public void saveUser(UserDto userDto ,String role) {
         User user = new User();
         user.setName(userDto.getFirstName() + " " + userDto.getLastName());
         user.setEmail(userDto.getEmail());
         // encrypt the password using spring security
         user.setPassword(passwordEncoder.encode(userDto.getPassword()));
         userRepository.save(user);
+
+        if (role.equals("ROLE_USER")) {
+            Employe employe = new Employe();
+            employe.setNom(userDto.getLastName());
+            employe.setPrenom(userDto.getFirstName());
+            employe.setUser(user);
+            employeService.saveEmployee(employe);
+
+            // Update the User entity with the associated Employe
+            user.setEmploye(employe);
+            userRepository.save(user);
+        }
+
     }
 
     @Override
