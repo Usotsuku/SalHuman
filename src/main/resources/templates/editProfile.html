@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="Template.html">
+<head>
+    <link rel="stylesheet" type="text/css" href="/webjars/bootstrap/5.3.2/css/bootstrap.min.css">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile Edition</title>
+</head>
+<body>
+<div layout:fragment="content">
+    <form th:action="@{/saveProfile}" method="post" th:object="${employe}">
+        <!-- Champ ID (caché) -->
+        <input type="hidden" id="employeId" name="employeId" th:value="${employe.employeId}" />
+
+        <div class="row mb-4">
+            <div class="col">
+                <div class="form-floating">
+                    <input type="text" id="nom" name="nom" class="form-control" th:value="${employe.nom}" placeholder="Nom">
+                    <label for="nom">Nom</label>
+                </div>
+            </div>
+            <div class="col">
+                <div class="form-floating">
+                    <input type="text" id="prenom" name="prenom" class="form-control" th:value="${employe.prenom}" placeholder="Prénom">
+                    <label for="prenom">Prénom</label>
+                </div>
+            </div>
+        </div>
+
+        <!-- Text input -->
+        <div class="form-floating mb-4">
+            <input type="text" id="poste" name="poste" class="form-control" th:value="${employe.poste}" placeholder="Poste">
+            <label for="poste">Poste</label>
+        </div>
+        <div class="form-floating mb-4">
+            <input type="text" id="departement" name="departement" class="form-control" th:value="${employe.departement}" placeholder="Département">
+            <label for="departement">Département</label>
+        </div>
+
+        <div class="form-floating mb-4">
+            <input type="date" id="dateEmbauche" name="date_embauche" class="form-control" th:value="${employe.date_embauche}" placeholder="Date d'embauche">
+            <label for="dateEmbauche">Date Embauche</label>
+        </div>
+
+            <button type="submit" class="btn btn-primary">Update</button>
+
+    </form>
+</div>
+</body>
+</html>

@@ -1,6 +1,9 @@
 package com.example.salhumans.services;
 import java.util.Optional;
+
+import com.example.salhumans.models.Conge;
 import com.example.salhumans.models.Employe;
+import com.example.salhumans.repositories.CongeRepository;
 import com.example.salhumans.repositories.EmployeRepository;
 import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +17,9 @@ import java.util.List;
 public class EmployeServiceImpl implements EmployeService {
     @Autowired
     EmployeRepository employeRepository;
+    @Autowired
+    CongeRepository congeRepository;
+
     @Override
     public Employe saveEmployee(Employe employe) {
         return employeRepository.save(employe);
@@ -53,5 +59,10 @@ public class EmployeServiceImpl implements EmployeService {
     @Override
     public Page<Employe> getAllEmployesByPage(int page, int size) {
         return employeRepository.findAll(PageRequest.of(page, size));
+    }
+
+    @Override
+    public void demanderConge(Conge conge) {
+        congeRepository.save(conge);
     }
 }

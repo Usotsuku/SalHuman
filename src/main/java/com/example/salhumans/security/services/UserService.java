@@ -8,7 +8,7 @@ import java.util.List;
 
 public interface UserService {
 
-    void saveUser(UserDto userDto);
+    void saveUser(UserDto userDto,String role);
 
     void addRoletoUser(String email, String role);
 

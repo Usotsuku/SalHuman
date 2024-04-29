@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="Template.html"
+>
+<head>
+    <link rel="stylesheet" type="text/css" href="webjars/bootstrap/5.3.2/css/bootstrap.min.css">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Demande de Congé</title>
+</head>
+<body >
+<div layout:fragment="content" >
+
+    <form th:action="@{/saveConge}" method="post">
+        <!-- Leave request type -->
+        <div class="row mb-4">
+            <div class="col">
+                <div class="form-outline">
+                    <label class="form-label" for="type">Type de Congé</label>
+                    <input type="text" id="type" name="type" class="form-control" />
+                </div>
+            </div>
+        </div>
+
+        <!-- Start and end date of leave -->
+        <div class="row mb-4">
+            <div class="col">
+                <div class="form-outline">
+                    <label class="form-label" for="dateDebut">Date de Début</label>
+                    <input type="date" id="dateDebut" name="dateDebut" class="form-control" />
+                </div>
+            </div>
+            <div class="col">
+                <div class="form-outline">
+                    <label class="form-label" for="dateFin">Date de Fin</label>
+                    <input type="date" id="dateFin" name="dateFin" class="form-control" />
+                </div>
+            </div>
+        </div>
+
+        <!-- Submit button -->
+        <div>
+            <button type="submit" class="btn btn-primary">Soumettre la demande de Congé</button>
+        </div>
+    </form>
+
+</div>
+
+</body>
+</html>

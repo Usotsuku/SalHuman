@@ -1,5 +1,6 @@
 package com.example.salhumans.security.entities;
 
+import com.example.salhumans.models.Employe;
 import com.example.salhumans.security.entities.Role;
 import jakarta.persistence.*;
 import lombok.*;
@@ -34,5 +35,8 @@ public class User
     @ManyToMany(fetch = FetchType.EAGER)
 
     private List<Role> roles = new ArrayList<>();
+    @OneToOne
+    @JoinColumn(name = "employe_id")
+    private Employe employe;
 
 }

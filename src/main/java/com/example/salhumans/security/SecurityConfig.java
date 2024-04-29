@@ -39,6 +39,7 @@ public class SecurityConfig {
                         .requestMatchers("/createEmploye","/saveEmploye").hasAnyAuthority("ROLE_ADMIN","ROLE_RH")
                         .requestMatchers("/employedetails","/updateEmploye","/deleteEmploye","/editEmploye").hasAnyAuthority("ROLE_ADMIN","ROLE_RH")
                         .requestMatchers("/employeList").hasAnyAuthority("ROLE_ADMIN","ROLE_MANAGER","ROLE_RH")
+                        .requestMatchers("/demandeConge","saveConge").hasAnyAuthority("ROLE_USER")
                 .requestMatchers("/webjars/**").permitAll()
                 .anyRequest()
                 .authenticated())
