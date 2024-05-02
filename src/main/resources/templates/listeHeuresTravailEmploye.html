@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Liste des heures de travail</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        h2 {
+            color: #333;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        th, td {
+            padding: 10px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        th {
+            background-color: #f2f2f2;
+            font-weight: bold;
+        }
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+        tr:hover {
+            background-color: #ddd;
+        }
+    </style>
+</head>
+<body>
+<h2 th:text="${'Heures de travail de ' + employe.nom +' '+ employe.prenom}"></h2>
+<table>
+    <thead>
+    <tr>
+        <th>Date</th>
+        <th>Type</th>
+        <th>Nombre d'heures</th>
+    </tr>
+    </thead>
+    <tbody>
+    <!-- Boucle sur la liste des heures de travail -->
+    <tr th:each="heureTravail : ${heuresTravail}">
+        <td th:text="${#dates.format(heureTravail.date, 'yyyy-MM-dd')}">Date</td>
+        <td th:text="${heureTravail.type}">Type</td>
+        <td th:text="${heureTravail.nb_heures}">Nombre d'heures</td>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>

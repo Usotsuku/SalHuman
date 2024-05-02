@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="Template.html">
+<head>
+    <link rel="stylesheet" type="text/css" href="webjars/bootstrap/5.3.2/css/bootstrap.min.css">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Heure de Travail Creation</title>
+</head>
+<body>
+<div layout:fragment="content">
+
+    <form th:action="@{/saveHeureTravaille}" method="post">
+        <div class="row mb-4">
+            <div class="col">
+                <div data-mdb-input-init class="form-outline">
+                    <label class="form-label" for="date">Date</label>
+                    <input type="date" id="date" name="date" class="form-control" required />
+                </div>
+            </div>
+            <div class="col">
+                <div data-mdb-input-init class="form-outline">
+                    <label class="form-label" for="type">Type</label>
+                    <input type="text" id="type" name="type" class="form-control" required />
+                </div>
+            </div>
+        </div>
+
+        <!-- Text input -->
+        <div data-mdb-input-init class="form-outline mb-4">
+            <label class="form-label" for="nbHeures">Nombre d'heures</label>
+            <input type="number" id="nbHeures" name="nb_heures" class="form-control" required />
+        </div>
+
+        <!-- Dropdown for Employe selection -->
+        <div class="mb-4">
+            <label class="form-label" for="employe">Employé</label>
+            <select class="form-select" id="employe" name="employe" required>
+                <option th:each="employe : ${employes}" th:value="${employe.employeId}" th:text="${employe.nom} + ' ' + ${employe.prenom}"></option>
+            </select>
+        </div>
+
+
+        <div>
+            <button data-mdb-ripple-init type="submit" value="Save" class="btn btn-primary btn-floating mx-1">Save</button>
+        </div>
+
+    </form>
+</div>
+</body>
+</html>

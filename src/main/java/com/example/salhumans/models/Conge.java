@@ -1,5 +1,6 @@
 package com.example.salhumans.models;
 
+
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -27,5 +28,6 @@ public class Conge {
     private String statuts;
     @ManyToOne
     private Employe employe;
+
 
 }

@@ -3,8 +3,15 @@ import java.util.Optional;
 
 import com.example.salhumans.models.Conge;
 import com.example.salhumans.models.Employe;
+<<<<<<< HEAD
+import com.example.salhumans.models.Heure_Travaille;
+
+=======
+>>>>>>> d0dcae846c9a704b60b825b3490539031306bf67
 import com.example.salhumans.repositories.CongeRepository;
 import com.example.salhumans.repositories.EmployeRepository;
+import com.example.salhumans.repositories.HeureTravailleRepository;
+import jakarta.transaction.Transactional;
 import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -65,4 +72,27 @@ public class EmployeServiceImpl implements EmployeService {
     public void demanderConge(Conge conge) {
         congeRepository.save(conge);
     }
+<<<<<<< HEAD
+
+
+
+
+    @Autowired
+    private HeureTravailleRepository  heureTravailRepository;
+
+    @Override
+    public List<Heure_Travaille > getHeuresTravailByEmploye(Employe employe) {
+
+        return heureTravailRepository.findByEmploye(employe);
+    }
+    @Transactional
+    public void approuverConge(Conge conge) {
+        conge.setStatuts("APPROUVED");
+        congeRepository.save(conge);
+    }
+    public Conge getDemandeCongeById(Long congeId) {
+        return congeRepository.findById(congeId).orElse(null);
+    }
+=======
+>>>>>>> d0dcae846c9a704b60b825b3490539031306bf67
 }
