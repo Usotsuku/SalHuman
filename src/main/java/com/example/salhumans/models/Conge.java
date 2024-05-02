@@ -1,5 +1,6 @@
 package com.example.salhumans.models;
 
+
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -22,5 +23,6 @@ public class Conge {
     private String statuts;
     @ManyToOne
     private Employe employe;
+
 
 }
