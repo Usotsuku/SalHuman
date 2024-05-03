@@ -3,11 +3,7 @@ import java.util.Optional;
 
 import com.example.salhumans.models.Conge;
 import com.example.salhumans.models.Employe;
-<<<<<<< HEAD
 import com.example.salhumans.models.Heure_Travaille;
-
-=======
->>>>>>> d0dcae846c9a704b60b825b3490539031306bf67
 import com.example.salhumans.repositories.CongeRepository;
 import com.example.salhumans.repositories.EmployeRepository;
 import com.example.salhumans.repositories.HeureTravailleRepository;
@@ -72,10 +68,6 @@ public class EmployeServiceImpl implements EmployeService {
     public void demanderConge(Conge conge) {
         congeRepository.save(conge);
     }
-<<<<<<< HEAD
-
-
-
 
     @Autowired
     private HeureTravailleRepository  heureTravailRepository;
@@ -93,6 +85,5 @@ public class EmployeServiceImpl implements EmployeService {
     public Conge getDemandeCongeById(Long congeId) {
         return congeRepository.findById(congeId).orElse(null);
     }
-=======
->>>>>>> d0dcae846c9a704b60b825b3490539031306bf67
+
 }
