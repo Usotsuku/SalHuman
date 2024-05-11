@@ -5,9 +5,12 @@ import java.util.Optional;
 import com.example.salhumans.models.Conge;
 import com.example.salhumans.models.Employe;
 import com.example.salhumans.models.Fiche_Paie;
+
 import com.example.salhumans.models.Heure_Travaille;
 import com.example.salhumans.repositories.CongeRepository;
 import com.example.salhumans.repositories.EmployeRepository;
+import com.example.salhumans.repositories.HeureTravailleRepository;
+import jakarta.transaction.Transactional;
 import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -84,6 +87,7 @@ public class EmployeServiceImpl implements EmployeService {
         return fiches.get(0);
     }
 
+
     @Autowired
     private HeureTravailleRepository  heureTravailRepository;
 
@@ -100,6 +104,5 @@ public class EmployeServiceImpl implements EmployeService {
     public Conge getDemandeCongeById(Long congeId) {
         return congeRepository.findById(congeId).orElse(null);
     }
-
 
 }
