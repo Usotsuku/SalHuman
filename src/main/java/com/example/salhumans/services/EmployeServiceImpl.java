@@ -5,6 +5,7 @@ import java.util.Optional;
 import com.example.salhumans.models.Conge;
 import com.example.salhumans.models.Employe;
 import com.example.salhumans.models.Fiche_Paie;
+import com.example.salhumans.models.Heure_Travaille;
 import com.example.salhumans.repositories.CongeRepository;
 import com.example.salhumans.repositories.EmployeRepository;
 import lombok.Setter;
@@ -81,6 +82,23 @@ public class EmployeServiceImpl implements EmployeService {
 
         // Return the first (most recent) payslip
         return fiches.get(0);
+    }
+
+    @Autowired
+    private HeureTravailleRepository  heureTravailRepository;
+
+    @Override
+    public List<Heure_Travaille > getHeuresTravailByEmploye(Employe employe) {
+
+        return heureTravailRepository.findByEmploye(employe);
+    }
+    @Transactional
+    public void approuverConge(Conge conge) {
+        conge.setStatuts("APPROUVED");
+        congeRepository.save(conge);
+    }
+    public Conge getDemandeCongeById(Long congeId) {
+        return congeRepository.findById(congeId).orElse(null);
     }
 
 
