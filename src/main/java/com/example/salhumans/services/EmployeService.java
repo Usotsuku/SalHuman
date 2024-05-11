@@ -2,6 +2,7 @@ package com.example.salhumans.services;
 
 import com.example.salhumans.models.Conge;
 import com.example.salhumans.models.Employe;
+import com.example.salhumans.models.Fiche_Paie;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
@@ -18,5 +19,7 @@ public interface EmployeService {
     Employe getEmployeById(long id);
 
     Page<Employe> getAllEmployesByPage(int page, int size);
-    public void demanderConge(Conge conge);
+    void demanderConge(Conge conge);
+
+    Fiche_Paie getLatestfichpaie(Employe employe) ;
 }
