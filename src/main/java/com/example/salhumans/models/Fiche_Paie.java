@@ -20,7 +20,9 @@ public class Fiche_Paie {
     private String periode;
     private float montant_brut;
     private float montant_net;
-    private String details_deductions;
+    private float amo;
+    private float cnss;
+    private float impotSurRevenu;
     @ManyToOne
     private Employe employe;
     @OneToMany(mappedBy = "fiche_paie", fetch = FetchType.EAGER)

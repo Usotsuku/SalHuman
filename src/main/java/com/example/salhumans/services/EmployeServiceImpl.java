@@ -1,8 +1,11 @@
 package com.example.salhumans.services;
+import java.util.Comparator;
 import java.util.Optional;
 
 import com.example.salhumans.models.Conge;
 import com.example.salhumans.models.Employe;
+import com.example.salhumans.models.Fiche_Paie;
+
 import com.example.salhumans.models.Heure_Travaille;
 import com.example.salhumans.repositories.CongeRepository;
 import com.example.salhumans.repositories.EmployeRepository;
@@ -68,6 +71,22 @@ public class EmployeServiceImpl implements EmployeService {
     public void demanderConge(Conge conge) {
         congeRepository.save(conge);
     }
+
+    @Override
+    public Fiche_Paie getLatestfichpaie(Employe employe) {
+
+        List<Fiche_Paie> fiches = employe.getFiches();
+        if (fiches.isEmpty()) {
+            return null; // No payslips available
+        }
+
+        // Sort the list of payslips by date in descending order
+        fiches.sort(Comparator.comparing(Fiche_Paie::getPeriode).reversed());
+
+        // Return the first (most recent) payslip
+        return fiches.get(0);
+    }
+
 
     @Autowired
     private HeureTravailleRepository  heureTravailRepository;
